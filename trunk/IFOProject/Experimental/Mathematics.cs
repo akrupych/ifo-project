@@ -5,8 +5,16 @@ using System.Text;
 
 namespace IFOProject.Experimental
 {
+    /// <summary>
+    /// Contains all mathematical operations.
+    /// </summary>
     class Mathematics
     {
+        /// <summary>
+        /// Inverses a matrix
+        /// </summary>
+        /// <param name="matrix">Matrix to be inverted</param>
+        /// <returns>Inversed matrix</returns>
         public static double[,] InverseMatrix(double[,] matrix)
         {
             int num = Convert.ToInt32(Math.Sqrt(matrix.Length));
@@ -23,7 +31,7 @@ namespace IFOProject.Experimental
 
             double[,] matrixT = new double[num, num];
 
-            // прямий хід за Гаусом
+            // Gauss 
 
             for (int k = 0; k < num; k++)
             {
@@ -66,7 +74,7 @@ namespace IFOProject.Experimental
                 // дозаповнення ходового стовпця матриці переходу
                 for (int i = k - 1; i >= 0; i--)
                 {
-                    if (i != k) matrixT[i, k] = -matrix[i, k];
+                    matrixT[i, k] = -matrix[i, k];
                 }
 
                 // множення матриці і вектора на матрицю переходу зліва
@@ -77,7 +85,13 @@ namespace IFOProject.Experimental
             return result;
         }
 
-        // множення двох матриць
+        /// <summary>
+        /// Multiplies two square matrices
+        /// </summary>
+        /// <param name="dim">Matrix dimension</param>
+        /// <param name="first">Left matrix</param>
+        /// <param name="second">Right matrix</param>
+        /// <returns>Result of matrix multiplication</returns>
         public static double[,] MatrMult(int dim, double[,] first, double[,] second)
         {
             double[,] result = new double[dim, dim];

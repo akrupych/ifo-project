@@ -27,3 +27,5 @@ C:\Users\Andrew\Desktop\IFO\IFOProject\obj\x86\Debug\GenerateResource.read.1.tlo
 C:\Users\Andrew\Desktop\IFO\IFOProject\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Andrew\Desktop\IFO\IFOProject\obj\x86\Debug\IFOProject.exe
 C:\Users\Andrew\Desktop\IFO\IFOProject\obj\x86\Debug\IFOProject.pdb
+D:\Nicholas\DeveloperCenter\Visual Studio 2012\Projects\IFO\IFOProject\obj\x86\Debug\IFOProject.exe
+D:\Nicholas\DeveloperCenter\Visual Studio 2012\Projects\IFO\IFOProject\obj\x86\Debug\IFOProject.pdb
