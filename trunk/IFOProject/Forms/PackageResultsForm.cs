@@ -191,7 +191,7 @@ namespace IFOProject.Forms
             // required curves: experimantal and results
             PointPairList finalPoints = new PointPairList();
             PointPairList exactPoints = new PointPairList();
-            for (int x = selection.Left; x < selection.Right; x++)
+            for (int x = selection.Left; x <= selection.Right; x++)
             {
                 finalPoints.Add(new PointPair(x, RowCalculations.FunctionI(result.Final, x)));
                 exactPoints.Add(new PointPair(x, result.Data[x]));
@@ -208,7 +208,7 @@ namespace IFOProject.Forms
             if (checkBoxShowInitial.Checked)
             {
                 PointPairList initialPoints = new PointPairList();
-                for (int x = selection.Left; x < selection.Right; x++)
+                for (int x = selection.Left; x <= selection.Right; x++)
                     initialPoints.Add(new PointPair(x,
                         RowCalculations.FunctionI(result.Approximation, x)));
                 LineItem lineFirst = graphPane.AddCurve(graphTitleInitial,
@@ -221,7 +221,7 @@ namespace IFOProject.Forms
             if (checkBoxCustomSetup.Checked)
             {
                 PointPairList customPoints = new PointPairList();
-                for (int x = selection.Left; x < selection.Right; x++)
+                for (int x = selection.Left; x <= selection.Right; x++)
                     customPoints.Add(new PointPair(x,
                         RowCalculations.FunctionI(CustomSetup, x)));
                 LineItem lineCustom = graphPane.AddCurve(graphTitleCustom,

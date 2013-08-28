@@ -123,7 +123,7 @@ namespace IFOProject.Forms
             {
                 // fill exact points list
                 PointPairList exact = new PointPairList();
-                for (int x = selection.Left; x < selection.Right; x++)
+                for (int x = selection.Left; x <= selection.Right; x++)
                     exact.Add(new PointPair(x, SetupResults.Data[x]));
                 // show points list on a plot
                 plot.AddCurve("Experimental points", exact, Color.Red,
@@ -135,7 +135,7 @@ namespace IFOProject.Forms
             // recreate initial and final graphs
             PointPairList initial = new PointPairList();
             PointPairList final = new PointPairList();
-            for (int x = selection.Left; x < selection.Right; x++)
+            for (int x = selection.Left; x <= selection.Right; x++)
             {
                 initial.Add(new PointPair(x, RowCalculations.FunctionI(
                     SetupResults.Approximation, x)));
