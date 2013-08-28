@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="IFOProject.CustomControls.ImageCanvas" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAEAAACIAAEAAAwIAAAQIIAAAAAAQBAA=</HashCode>
+      <FileName>CustomControls\ImageCanvas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.CustomControls.Plot" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomControls\Plot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.CustomControls.ProfileCanvas" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>AADAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>CustomControls\ProfileCanvas.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.DataStructures.Coefficients" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAKAUAAAAAAAABAAAAAAAABABAAAI=</HashCode>
+      <FileName>DataStructures\Coefficients.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.DataStructures.Location" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAEAAAAAAAgAAAAAAAAAAAEAYAA=</HashCode>
+      <FileName>DataStructures\Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.DataStructures.ImageMatrix" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAACABAAAAAAAAAAhAAAAAAgAgAAAA=</HashCode>
+      <FileName>DataStructures\Matrix.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.DataStructures.MyRectangle" Collapsed="true">
+    <Position X="4" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAABAAAAAAAAAAQAEAAAAAIAgAgCACAAAAAAAA=</HashCode>
+      <FileName>DataStructures\MyRectangle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Experimental.Mathematics" Collapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAARAAAAAAAIAgAAAAAAQAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Experimental\Mathematics.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Experimental.Package" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAACAAAAAAAAAAAAhAAAAKAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Experimental\Package.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Experimental.Pattern" Collapsed="true">
+    <Position X="9.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAEAQQAARAAAAAAAAAqAAEQAAGAAABIAAQAAAECAQgI=</HashCode>
+      <FileName>Experimental\Pattern.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Experimental.RowCalculations">
+    <Position X="6.5" Y="3.25" Width="5.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABAAEAAAgAAAAAACAJAACAAEBEgBAEACAAABAA=</HashCode>
+      <FileName>Experimental\RowCalculations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Forms.CalculationSetupForm" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAxAAACAAAEAAABCAAAACABAwAAAiECBAAAAABAA=</HashCode>
+      <FileName>Forms\CalculationSetupForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Forms.MainForm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IADAIQEUUOyQgjGQEBLuXFgCsiAAIQAYEKxMQAiUGQE=</HashCode>
+      <FileName>Forms\MainForm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IFOProject.Forms.PackageResultsForm" Collapsed="true">
+    <Position X="7.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABBBAgAAgDDQANDAAl+AAoACAAAAAhiBEAAEoREAAiA=</HashCode>
+      <FileName>Forms\PackageResultsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Forms.PatternResultsForm" Collapsed="true">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAQAAQAACCADBBAAUaAAAACCoAwQAiAkAAEBAAAAAA=</HashCode>
+      <FileName>Forms\PatternResultsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Program" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Properties.Resources" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IFOProject.Properties.Settings" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IFOProject.IProgressUpdater" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IProgressUpdater.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IFOProject.Interfaces.IResultListener" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IResultListener.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="IFOProject.DataStructures.Corner" Collapsed="true">
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>DataStructures\Corner.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
