@@ -23,6 +23,11 @@ namespace IFOProject.Forms
         private double[] PhaseDifference { get; set; }
 
         /// <summary>
+        /// Absolute Y-coordinates
+        /// </summary>
+        private double[] Y { get; set; }
+
+        /// <summary>
         /// First coefficient for y=Ax+B
         /// </summary>
         private double A { get; set; }
@@ -51,6 +56,7 @@ namespace IFOProject.Forms
             PackageName1 = Path.GetFileNameWithoutExtension(fileName);
             PackageName2 = Program.Package.Name;
             CalculatePhaseDifference(fileName);
+            CalculateY();
             CalculateLinearRegression();
             CalculateErrors();
             SetupGraph();
@@ -69,19 +75,32 @@ namespace IFOProject.Forms
         }
 
         /// <summary>
+        /// Creates array of absolute Y-coordinates for selected rows
+        /// </summary>
+        private void CalculateY()
+        {
+            RowCalculations[] rows = Program.Package.CurrentPattern.Calculations;
+            int middle = (rows.First().Index + rows.Last().Index) / 2;
+            Y = new double[PhaseDifference.Length];
+            for (int i = 0; i < Y.Length; i++)
+                Y[i] = (rows[i].Index - middle) / 89.0;
+        }
+
+        /// <summary>
         /// Approximates PhaseDifference values with a line
         /// </summary>
         private void CalculateLinearRegression()
         {
             double[] y = PhaseDifference;
+            double[] x = Y;
             int length = y.Length;
-            double x_avg = length / 2;
+            double x_avg = x.Average();
             double y_avg = y.Average();
             double num = 0, den = 0;
             for (int i = 0; i < length; i++)
             {
-                num += (i - x_avg) * (y[i] - y_avg);
-                den += (i - x_avg) * (i - x_avg);
+                num += (x[i] - x_avg) * (y[i] - y_avg);
+                den += (x[i] - x_avg) * (x[i] - x_avg);
             }
             A = num / den;
             B = y_avg - A * x_avg;
@@ -102,13 +121,14 @@ namespace IFOProject.Forms
         private void CalculateErrors()
         {
             double[] y = PhaseDifference;
+            double[] x = Y;
             double y_avg = y.Average();
-            int length = PhaseDifference.Length;
+            int length = y.Length;
             double rss = 0, total = 0;
-            for (int x = 0; x < length; x++)
+            for (int i = 0; i < length; i++)
             {
-                rss += Math.Pow(y[x] - LinearFunction(x), 2);
-                total += Math.Pow(y[x] - y_avg, 2);
+                rss += Math.Pow(y[i] - LinearFunction(x[i]), 2);
+                total += Math.Pow(y[i] - y_avg, 2);
             }
             double cod = 1 - rss / total;
             textBoxRSS.Text = string.Format("{0:F3}", rss);
@@ -122,24 +142,22 @@ namespace IFOProject.Forms
         {
             // initial setup
             GraphPane graph = resultsPlot.GraphPane;
-            graph.Title.Text = string.Format(
-                "Phase difference ({0} vs {1})", PackageName1, PackageName2); ;
+            graph.Title.Text = string.Format("Phase difference ({0} vs {1})",
+                PackageName1, PackageName2);
             graph.YAxis.Title.Text = "Phase difference";
             graph.XAxis.Title.Text = "Row";
             // fill with data
-            double[] x = new double[PhaseDifference.Length];
-            for (int i = 0; i < x.Length; i++) x[i] = i;
             LineItem line = graph.AddCurve("Phase difference",
-                x, PhaseDifference, Color.Red, SymbolType.Circle);
+                Y, PhaseDifference, Color.Red, SymbolType.Circle);
             line.Line.IsVisible = false;
             line.Symbol.Size = 5;
             line.Symbol.Fill = new Fill(Color.Red);
             // show approximation
-            double[] y = new double[x.Length];
+            double[] x = Y;
+            double[] fit = new double[x.Length];
             for (int i = 0; i < x.Length; i++)
-                y[i] = LinearFunction(i);
-            line = graph.AddCurve("Best fit",
-                x, y, Color.Blue, SymbolType.None);
+                fit[i] = LinearFunction(x[i]);
+            line = graph.AddCurve("Best fit", x, fit, Color.Blue, SymbolType.None);
             line.Line.Width = 2;
             line.Line.IsAntiAlias = true;
             // update
@@ -158,13 +176,14 @@ namespace IFOProject.Forms
         private double CalculateStandartError()
         {
             // sqrt [ Σ(yi - ŷi)2 / (n - 2) ] / sqrt [ Σ(xi - x)2 ]
+            double[] x = Y;
             double[] y = PhaseDifference;
             double x_avg = y.Length / 2;
             double sumX = 0.0, sumY = 0.0;
-            for (int x = 0; x < y.Length; x++)
+            for (int i = 0; i < x.Length; i++)
             {
-                sumX += Math.Pow(x - x_avg, 2);
-                sumY += Math.Pow(y[x] - LinearFunction(x), 2);
+                sumX += Math.Pow(x[i] - x_avg, 2);
+                sumY += Math.Pow(y[i] - LinearFunction(x[i]), 2);
             }
             return Math.Sqrt(sumY / (y.Length - 2)) / Math.Sqrt(sumX);
         }
