@@ -84,7 +84,7 @@ namespace IFOProject.Forms
                 {
                     Coefficients coefs = new Coefficients(a);
                     PointPairList custom = new PointPairList();
-                    for (int x = pattern.Selection.Left; x < pattern.Selection.Right; x++)
+                    for (int x = pattern.Selection.Left; x <= pattern.Selection.Right; x++)
                         custom.Add(new PointPair(x, RowCalculations.FunctionI(coefs, x)));
                     LineItem lineCustom = graphPane.AddCurve(
                         "Custom setup", custom, Color.Magenta, SymbolType.None);
@@ -94,7 +94,7 @@ namespace IFOProject.Forms
                 else MessageBox.Show("Invalid field value");
             }
 
-            for (int x = pattern.Selection.Left; x < pattern.Selection.Right; x++)
+            for (int x = pattern.Selection.Left; x <= pattern.Selection.Right; x++)
             {
                 final.Add(new PointPair(x, RowCalculations.FunctionI(Results[index].Final, x)));
                 first.Add(new PointPair(x, RowCalculations.FunctionI(Results[index].Approximation, x)));

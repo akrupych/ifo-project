@@ -190,19 +190,19 @@ namespace IFOProject.Experimental
             ImageMatrix smoothed = new ImageMatrix(CurrentMatrix);
             // left overlap
             for (int x = Selection.Left; x < radius; x++)
-                for (int y = Selection.Top; y < Selection.Bottom; y++)
+                for (int y = Selection.Top; y <= Selection.Bottom; y++)
                     smoothed[y, x] = AverageIntensity(x, y, radius);
             // right overlap
-            for (int x = Width - radius; x < Selection.Right; x++)
-                for (int y = Selection.Top; y < Selection.Bottom; y++)
+            for (int x = Width - radius; x <= Selection.Right; x++)
+                for (int y = Selection.Top; y <= Selection.Bottom; y++)
                     smoothed[y, x] = AverageIntensity(x, y, radius);
             // top overlap
             for (int y = Selection.Top; y < radius; y++)
-                for (int x = Selection.Left; x < Selection.Right; x++)
+                for (int x = Selection.Left; x <= Selection.Right; x++)
                     smoothed[y, x] = AverageIntensity(x, y, radius);
             // bottom overlap
-            for (int y = Height - radius; y < Selection.Bottom; y++)
-                for (int x = Selection.Left; x < Selection.Right; x++)
+            for (int y = Height - radius; y <= Selection.Bottom; y++)
+                for (int x = Selection.Left; x <= Selection.Right; x++)
                     smoothed[y, x] = AverageIntensity(x, y, radius);
             // quick smooth
             int fromX = Math.Max(Selection.Left, radius);
@@ -229,7 +229,7 @@ namespace IFOProject.Experimental
             else result.Add(new RowCalculations(Selection.Top, CurrentMatrix.Row(Selection.Top),
                     Selection.Left, Selection.Right, approximation));
             for (int row = Selection.Top + SelectionRowStep;
-                row < Selection.Bottom; row += SelectionRowStep)
+                row <= Selection.Bottom; row += SelectionRowStep)
             {
                 result.Add(new RowCalculations(row, CurrentMatrix.Row(row),
                     Selection.Left, Selection.Right, result.Last().Final));
