@@ -473,7 +473,7 @@ namespace IFOProject.Forms
                 {
                     // start in new thread (updates will be sent to SetProgress)
                     CalculationsThread = new Thread(new ThreadStart(
-                        delegate() { Program.Package.Calculate(this); }));
+                        delegate() { Program.Package.Calculate(this, coefficients); }));
                     CalculationsThread.Start();
                     // Cursor.Current = Cursors.WaitCursor is not working.. MAGIC!
                     Application.UseWaitCursor = true;
