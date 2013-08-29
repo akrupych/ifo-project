@@ -192,8 +192,8 @@ namespace IFOProject.Forms
 
         private double CalculateLoadingMassDifference()
         {
-            double load1 = double.Parse(PackageName1.Substring(PackageName1.Length - 2)) / 10.0;
-            double load2 = double.Parse(PackageName2.Substring(PackageName2.Length - 2)) / 10.0;
+            double load1 = double.Parse(PackageName1.Substring(1, 2)) / 10.0;
+            double load2 = double.Parse(PackageName2.Substring(1, 2)) / 10.0;
             return load2 - load1;
         }
     }
