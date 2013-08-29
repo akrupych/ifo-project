@@ -32,6 +32,10 @@ namespace IFOProject.Experimental
         /// </summary>
         public bool UseSmoothing { get; set; }
         /// <summary>
+        /// Check if image has smoothed matrix
+        /// </summary>
+        public bool HasSmoothed { get { return SmoothedMatrix != null; } }
+        /// <summary>
         /// Gets or sets selection rectangle for pattern calculations
         /// </summary>
         public MyRectangle Selection { get; set; }
