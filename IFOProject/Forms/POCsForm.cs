@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace IFOProject.Forms
 {
@@ -45,23 +46,58 @@ namespace IFOProject.Forms
             public Calculate Function { get; set; }
 
             /// <summary>
+            /// Should this parameter be saved?
+            /// Added for distinguishing current calculation parameters
+            /// from static interferometry setup constants.
+            /// </summary>
+            public bool IsSaved { get; set; }
+
+            /// <summary>
             /// All-args constructor
             /// </summary>
             public Parameter(string name, double value, bool editable,
-                bool visible, Calculate function)
+                bool visible, Calculate function, bool isSaved)
             {
                 Name = name;
                 Value = value;
                 Editable = editable;
                 Visible = visible;
                 Function = function;
+                IsSaved = isSaved;
             }
 
             /// <summary>
             /// Creates hidden constant-parameter
             /// </summary>
-            public Parameter(string name, double value) :
-                this(name, value, false, false, null) { }
+            public static Parameter CreateHiddenConstant(string name, double value)
+            {
+                return new Parameter(name, value, false, false, null, true);
+            }
+
+            /// <summary>
+            /// Creates visible editable parameter
+            /// </summary>
+            public static Parameter CreateVisibleVariable(string name, double value)
+            {
+                return new Parameter(name, value, true, true, null, true);
+            }
+
+            /// <summary>
+            /// Creates function parameter
+            /// </summary>
+            public static Parameter CreateFunction(string name, double value, bool editable,
+                bool visible, Calculate function)
+            {
+                return new Parameter(name, value, editable, visible, function, false);
+            }
+
+            /// <summary>
+            /// Creates not-to-save constant (result of current calculations)
+            /// </summary>
+            public static Parameter CreateInstantConstant(string name, double value, bool visible)
+            {
+                return new Parameter(name, value, false, visible, null, false);
+            }
 
             /// <summary>
             /// Adapted for adding to DataGridView as a row values
@@ -88,34 +124,36 @@ namespace IFOProject.Forms
             /// <summary>
             /// Creates full parameters list with default values
             /// </summary>
-            /// <param name="args">Calculated values</param>
-            public ParametersList(params Parameter[] args)
+            public ParametersList()
             {
                 Parameters = new List<Parameter>() {
-                    new Parameter("Gravitational Acceleration, m/s^2", 9.80954),
-                    new Parameter("Refractive index of environment", 1.00027),
-                    new Parameter("Wavelength, nm", 632.8),
-                    new Parameter("Lever Amplification (mechanical advantage)", 8.31, true, true, null),
-                    new Parameter("Sample's height, mm", 3.026, true, true, null),
-                    new Parameter("Distance between loading edges, mm", 4, true, true, null),
-                    new Parameter("Elastic Complianse Coefficient, Brewsters", -0.801, true, true, null),
-                    new Parameter("Initial refractive index", 2.286, true, true, null),
-                    new Parameter("Loading force, P", 0, false, false, delegate()
+                    Parameter.CreateInstantConstant("Loading mass difference, kg", 0, false),
+                    Parameter.CreateInstantConstant("Line slope, deg", 0, true),
+                    Parameter.CreateInstantConstant("Standard error, deg/mm", 0, true),
+                    Parameter.CreateHiddenConstant("Gravitational Acceleration, m/s^2", 9.80954),
+                    Parameter.CreateHiddenConstant("Refractive index of environment", 1.00027),
+                    Parameter.CreateHiddenConstant("Wavelength, nm", 632.8),
+                    Parameter.CreateVisibleVariable("Lever Amplification (mechanical advantage)", 8.31),
+                    Parameter.CreateVisibleVariable("Sample's height, mm", 3.026),
+                    Parameter.CreateVisibleVariable("Distance between loading edges, mm", 4),
+                    Parameter.CreateVisibleVariable("Elastic Complianse Coefficient, Brewsters", -0.801),
+                    Parameter.CreateVisibleVariable("Initial refractive index", 2.286),
+                    Parameter.CreateFunction("Loading force, P", 0, false, false, delegate()
                         {
                             return this["Loading mass difference, kg"] *
                                 this["Gravitational Acceleration, m/s^2"] *
                                 this["Lever Amplification (mechanical advantage)"];
                         }),
-                    new Parameter("Factor", 0, false, false, delegate()
+                    Parameter.CreateFunction("Factor", 0, false, false, delegate()
                         {
                             return (this["Wavelength, nm"] * Math.Pow(this["Sample's height, mm"], 3)) /
                                 (12 * 180 * this["Loading force, P"] * this["Distance between loading edges, mm"]);
                         }),
-                    new Parameter("Effective piezooptical coefficient, Brewsters", 0, false, true, delegate()
+                    Parameter.CreateFunction("Effective piezooptical coefficient, Brewsters", 0, false, true, delegate()
                         {
                             return this["Factor"] * this["Line slope, deg"];
                         }),
-                    new Parameter("EPOC Error", 0, false, true, delegate()
+                    Parameter.CreateFunction("EPOC Error", 0, false, true, delegate()
                         {
                             double deltaP = this["Gravitational Acceleration, m/s^2"] *
                                 (0.001 * this["Lever Amplification (mechanical advantage)"] +
@@ -133,29 +171,29 @@ namespace IFOProject.Forms
                             return this["Line slope, deg"] * deltaF +
                                 this["Standard error, deg/mm"] + this["Factor"];
                         }),
-                    new Parameter("Elastic term, Brewsters", 0, false, false, delegate()
+                    Parameter.CreateFunction("Elastic term, Brewsters", 0, false, false, delegate()
                         {
                             return (this["Initial refractive index"] -
                                 this["Refractive index of environment"]) *
                                 this["Elastic Complianse Coefficient, Brewsters"];
                         }),
-                    new Parameter("Stress-optic coefficient, Brewsters", 0, false, true, delegate()
+                    Parameter.CreateFunction("Stress-optic coefficient, Brewsters", 0, false, true, delegate()
                         {
                             return this["Effective piezooptical coefficient, Brewsters"] -
                                 this["Elastic term, Brewsters"];
                         }),
-                    new Parameter("SOC error", 0, false, true, delegate()
+                    Parameter.CreateFunction("SOC error", 0, false, true, delegate()
                         {
                             return this["EPOC Error"] + 0.001 *
                                 (Math.Abs(this["Initial refractive index"]) + 
                                 Math.Abs(this["Stress-optic coefficient, Brewsters"]));
                         }),
-                    new Parameter("Piezooptic coefficient, Brewsters", 0, false, true, delegate()
+                    Parameter.CreateFunction("Piezooptic coefficient, Brewsters", 0, false, true, delegate()
                         {
                             return -2 * this["Stress-optic coefficient, Brewsters"] /
                                 Math.Pow(this["Initial refractive index"], 3);
                         }),
-                    new Parameter("POC Error", 0, false, true, delegate()
+                    Parameter.CreateFunction("POC Error", 0, false, true, delegate()
                         {
                             double a = Math.Abs(this["Piezooptic coefficient, Brewsters"]);
                             double b = Math.Abs(this["SOC error"] /
@@ -164,14 +202,12 @@ namespace IFOProject.Forms
                             return a * (b + c) / (1 - c);
                         })
                 };
-                Parameters.InsertRange(0, args);
                 Recalculate();
             }
 
             /// <summary>
             /// Returns copy of the list for adding to the DataGridView
             /// </summary>
-            /// <returns></returns>
             public List<Parameter> GetCopy()
             {
                 return new List<Parameter>(Parameters);
@@ -182,7 +218,7 @@ namespace IFOProject.Forms
             /// Allows modification only for editable fields.
             /// Recalculates dependent parameters.
             /// </summary>
-            /// <param name="index">Index of parameter in the list</param>
+            /// <param name="name">Parameter name</param>
             /// <param name="value">New parameter's value</param>
             public void SetValue(string name, double value)
             {
@@ -194,6 +230,20 @@ namespace IFOProject.Forms
                 }
             }
 
+            /// <summary>
+            /// Non-safe parameter setter. Doesn't care if parameter is editable.
+            /// </summary>
+            /// <param name="name">Parameter name</param>
+            /// <param name="value">New parameter's value</param>
+            public void SetValueAnyway(string name, double value)
+            {
+                FindParameter(name).Value = value;
+                Recalculate();
+            }
+
+            /// <summary>
+            /// Recalculates all function parameters
+            /// </summary>
             private void Recalculate()
             {
                 foreach (Parameter param in Parameters)
@@ -201,6 +251,9 @@ namespace IFOProject.Forms
                         param.Value = param.Function();
             }
 
+            /// <summary>
+            /// Returns parameter with a given name
+            /// </summary>
             private Parameter FindParameter(string name)
             {
                 foreach (Parameter param in Parameters)
@@ -209,9 +262,40 @@ namespace IFOProject.Forms
                 return null;
             }
 
+            /// <summary>
+            /// Returns parameter value
+            /// </summary>
+            /// <param name="name">Parameter name</param>
             public double this[string name]
             {
                 get { return FindParameter(name).Value; }
+            }
+
+            /// <summary>
+            /// Saves parameters to .prm file
+            /// </summary>
+            /// <param name="fileName">Full file path</param>
+            public void Save(string fileName)
+            {
+                List<string> lines = new List<string>();
+                foreach (var param in Parameters)
+                    if (param.IsSaved)
+                        lines.Add(param.Name + ":" + param.Value);
+                File.WriteAllLines(fileName, lines.ToArray());
+            }
+
+            /// <summary>
+            /// Loads parameters from .prm file
+            /// </summary>
+            /// <param name="fileName">Full file path</param>
+            public void Load(string fileName)
+            {
+                string[] lines = File.ReadAllLines(fileName);
+                foreach (var line in lines)
+                {
+                    string[] splitted = line.Split(new char[] { ':' });
+                    FindParameter(splitted[0]).Value = double.Parse(splitted[1]);
+                }
             }
         }
 
@@ -221,10 +305,11 @@ namespace IFOProject.Forms
             double lineSlope, double standardError)
         {
             InitializeComponent();
-            Parameters = new ParametersList(
-                new Parameter("Loading mass difference, kg", loadingMassDifference),
-                new Parameter("Line slope, deg", lineSlope, false, true, null),
-                new Parameter("Standard error, deg/mm", standardError, false, true, null));
+            Parameters = new ParametersList();
+            Parameters.SetValueAnyway("Loading mass difference, kg", loadingMassDifference);
+            Parameters.SetValueAnyway("Line slope, deg", lineSlope);
+            Parameters.SetValueAnyway("Standard error, deg/mm", standardError);
+            UpdateTable();
             foreach (Parameter param in Parameters.GetCopy())
             {
                 if (param.Visible)
@@ -253,6 +338,27 @@ namespace IFOProject.Forms
             for (int row = 0; row < dataGridView.Rows.Count; row++)
                 dataGridView["Value", row].Value = string.Format("{0:F6}",
                     Parameters[dataGridView["Key", row].Value.ToString()]);
+        }
+
+        private void buttonLoad_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Parameters files (*.prm)|*.prm";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Parameters.Load(dialog.FileName);
+                UpdateTable();
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Parameters files (*.prm)|*.prm";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Parameters.Save(dialog.FileName);
+            }
         }
     }
 }
