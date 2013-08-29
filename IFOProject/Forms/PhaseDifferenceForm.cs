@@ -180,7 +180,7 @@ namespace IFOProject.Forms
             // sqrt [ Σ(yi - ŷi)2 / (n - 2) ] / sqrt [ Σ(xi - x)2 ]
             double[] x = Y;
             double[] y = PhaseDifference;
-            double x_avg = y.Length / 2;
+            double x_avg = x.Average();
             double sumX = 0.0, sumY = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
