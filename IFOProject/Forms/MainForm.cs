@@ -253,6 +253,7 @@ namespace IFOProject.Forms
                 groupBoxSmoothing.Enabled = true;
                 Pattern current = Program.Package.CurrentPattern;
                 textBoxSmoothRadius.Text = current.SmoothingRadius.ToString();
+                checkBoxUseSmoothed.Enabled = current.HasSmoothed;
                 checkBoxUseSmoothed.Checked = current.UseSmoothing;
             }
         }
