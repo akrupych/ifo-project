@@ -86,12 +86,14 @@
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(54, 20);
             this.buttonLoad.Text = "Load...";
+            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
             // buttonSave
             // 
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(52, 20);
             this.buttonSave.Text = "Save...";
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // POCsForm
             // 
