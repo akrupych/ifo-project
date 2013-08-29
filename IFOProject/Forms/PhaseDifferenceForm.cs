@@ -58,7 +58,7 @@ namespace IFOProject.Forms
             CalculatePhaseDifference(fileName);
             CalculateY();
             CalculateLinearRegression();
-            CalculateErrors();
+            SetupTopBar();
             SetupGraph();
         }
 
@@ -67,11 +67,11 @@ namespace IFOProject.Forms
         /// </summary>
         private void CalculatePhaseDifference(string fileName)
         {
-            double[] first = Program.Package.AveragePhase;
-            double[] second = Package.LoadResults(fileName);
+            double[] first = Package.LoadResults(fileName);
+            double[] second = Program.Package.AveragePhase;
             PhaseDifference = new double[Math.Min(first.Length, second.Length)];
             for (int i = 0; i < PhaseDifference.Length; i++)
-                PhaseDifference[i] = first[i] - second[i];
+                PhaseDifference[i] = second[i] - first[i];
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace IFOProject.Forms
         /// <summary>
         /// Sets proximity TextBoxes value
         /// </summary>
-        private void CalculateErrors()
+        private void SetupTopBar()
         {
             double[] y = PhaseDifference;
             double[] x = Y;
@@ -133,6 +133,8 @@ namespace IFOProject.Forms
             double cod = 1 - rss / total;
             textBoxRSS.Text = string.Format("{0:F3}", rss);
             textBoxCoD.Text = string.Format("{0:F3}", cod);
+            textBoxSlope.Text = string.Format("{0:F3}", A);
+            textBoxStandardError.Text = string.Format("{0:F3}", CalculateStandardError());
         }
 
         /// <summary>
@@ -142,10 +144,10 @@ namespace IFOProject.Forms
         {
             // initial setup
             GraphPane graph = resultsPlot.GraphPane;
-            graph.Title.Text = string.Format("Phase difference ({0} vs {1})",
-                PackageName1, PackageName2);
-            graph.YAxis.Title.Text = "Phase difference";
-            graph.XAxis.Title.Text = "Row";
+            graph.Title.Text = string.Format("Phase difference ({0} - {1})",
+                PackageName2, PackageName1);
+            graph.YAxis.Title.Text = "Phase difference increment, deg";
+            graph.XAxis.Title.Text = "Y, mm";
             // fill with data
             LineItem line = graph.AddCurve("Phase difference",
                 Y, PhaseDifference, Color.Red, SymbolType.Circle);
@@ -170,10 +172,10 @@ namespace IFOProject.Forms
         private void buttonCalculatePOCsClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             new POCsForm(CalculateLoadingMassDifference(), A,
-                CalculateStandartError()).Show();
+                CalculateStandardError()).Show();
         }
 
-        private double CalculateStandartError()
+        private double CalculateStandardError()
         {
             // sqrt [ Σ(yi - ŷi)2 / (n - 2) ] / sqrt [ Σ(xi - x)2 ]
             double[] x = Y;

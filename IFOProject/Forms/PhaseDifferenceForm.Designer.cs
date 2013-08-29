@@ -36,6 +36,10 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.textBoxCoD = new System.Windows.Forms.ToolStripTextBox();
             this.buttonCalculatePOCs = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
+            this.textBoxSlope = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.textBoxStandardError = new System.Windows.Forms.ToolStripTextBox();
             this.resultsPlot = new IFOProject.CustomControls.Plot();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,10 +52,14 @@
             this.textBoxRSS,
             this.toolStripLabel2,
             this.textBoxCoD,
-            this.buttonCalculatePOCs});
+            this.buttonCalculatePOCs,
+            this.toolStripLabel3,
+            this.textBoxSlope,
+            this.toolStripLabel4,
+            this.textBoxStandardError});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(584, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(918, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.buttonCalculatePOCsClicked);
@@ -92,6 +100,30 @@
             this.buttonCalculatePOCs.Size = new System.Drawing.Size(92, 21);
             this.buttonCalculatePOCs.Text = "Calculate POCs";
             // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(39, 22);
+            this.toolStripLabel3.Text = "Slope:";
+            // 
+            // textBoxSlope
+            // 
+            this.textBoxSlope.Name = "textBoxSlope";
+            this.textBoxSlope.ReadOnly = true;
+            this.textBoxSlope.Size = new System.Drawing.Size(100, 25);
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(85, 22);
+            this.toolStripLabel4.Text = "Standard Error:";
+            // 
+            // textBoxStandardError
+            // 
+            this.textBoxStandardError.Name = "textBoxStandardError";
+            this.textBoxStandardError.ReadOnly = true;
+            this.textBoxStandardError.Size = new System.Drawing.Size(100, 23);
+            // 
             // resultsPlot
             // 
             this.resultsPlot.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -105,14 +137,14 @@
             this.resultsPlot.ScrollMinX = 0D;
             this.resultsPlot.ScrollMinY = 0D;
             this.resultsPlot.ScrollMinY2 = 0D;
-            this.resultsPlot.Size = new System.Drawing.Size(584, 390);
+            this.resultsPlot.Size = new System.Drawing.Size(918, 521);
             this.resultsPlot.TabIndex = 1;
             // 
             // PhaseDifferenceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 415);
+            this.ClientSize = new System.Drawing.Size(918, 546);
             this.Controls.Add(this.resultsPlot);
             this.Controls.Add(this.toolStrip1);
             this.Name = "PhaseDifferenceForm";
@@ -133,5 +165,9 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripTextBox textBoxCoD;
         private System.Windows.Forms.ToolStripButton buttonCalculatePOCs;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripTextBox textBoxSlope;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
+        private System.Windows.Forms.ToolStripTextBox textBoxStandardError;
     }
 }
