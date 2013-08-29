@@ -69,7 +69,7 @@ namespace IFOProject.Forms
             /// <returns></returns>
             public object[] ToArray()
             {
-                return new object[] { Name, Value };
+                return new object[] { Name, string.Format("{0:F6}", Value) };
             }
 
             public delegate double Calculate();
@@ -251,8 +251,8 @@ namespace IFOProject.Forms
         private void UpdateTable()
         {
             for (int row = 0; row < dataGridView.Rows.Count; row++)
-                dataGridView["Value", row].Value =
-                    Parameters[dataGridView["Key", row].Value.ToString()];
+                dataGridView["Value", row].Value = string.Format("{0:F6}",
+                    Parameters[dataGridView["Key", row].Value.ToString()]);
         }
     }
 }
