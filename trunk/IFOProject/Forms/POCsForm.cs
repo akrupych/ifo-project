@@ -85,10 +85,9 @@ namespace IFOProject.Forms
             /// <summary>
             /// Creates function parameter
             /// </summary>
-            public static Parameter CreateFunction(string name, double value, bool editable,
-                bool visible, Calculate function)
+            public static Parameter CreateFunction(string name, bool visible, Calculate function)
             {
-                return new Parameter(name, value, editable, visible, function, false);
+                return new Parameter(name, 0, false, visible, function, false);
             }
 
             /// <summary>
@@ -130,6 +129,10 @@ namespace IFOProject.Forms
                     Parameter.CreateInstantConstant("Loading mass difference, kg", 0, false),
                     Parameter.CreateInstantConstant("Line slope, deg", 0, true),
                     Parameter.CreateInstantConstant("Standard error, deg/mm", 0, true),
+                    Parameter.CreateFunction("Line slope Relative error", false, delegate()
+                    {
+                        return this["Standard error, deg/mm"] / this["Line slope, deg"];
+                    }),
                     Parameter.CreateHiddenConstant("Gravitational Acceleration, m/s^2", 9.80954),
                     Parameter.CreateHiddenConstant("Refractive index of environment", 1.00027),
                     Parameter.CreateHiddenConstant("Wavelength, nm", 632.8),
@@ -138,69 +141,107 @@ namespace IFOProject.Forms
                     Parameter.CreateVisibleVariable("Distance between loading edges, mm", 4),
                     Parameter.CreateVisibleVariable("Elastic Complianse Coefficient, Brewsters", -0.801),
                     Parameter.CreateVisibleVariable("Initial refractive index", 2.286),
-                    Parameter.CreateFunction("Loading force, P", 0, false, false, delegate()
-                        {
-                            return this["Loading mass difference, kg"] *
-                                this["Gravitational Acceleration, m/s^2"] *
-                                this["Lever Amplification (mechanical advantage)"];
-                        }),
-                    Parameter.CreateFunction("Factor", 0, false, false, delegate()
-                        {
-                            return (this["Wavelength, nm"] * Math.Pow(this["Sample's height, mm"], 3)) /
-                                (12 * 180 * this["Loading force, P"] * this["Distance between loading edges, mm"]);
-                        }),
-                    Parameter.CreateFunction("Effective piezooptical coefficient, Brewsters", 0, false, true, delegate()
-                        {
-                            return this["Factor"] * this["Line slope, deg"];
-                        }),
-                    Parameter.CreateFunction("EPOC Error", 0, false, true, delegate()
-                        {
-                            double deltaP = this["Gravitational Acceleration, m/s^2"] *
-                                (0.001 * this["Lever Amplification (mechanical advantage)"] +
-                                0.01 * this["Loading mass difference, kg"]);
-                            double deltaD = 12 * 180 * (0.01 * this["Loading force, P"] +
-                                deltaP * this["Distance between loading edges, mm"]);
-                            double D = 12 * 180 * this["Loading force, P"] *
-                                this["Distance between loading edges, mm"];
-                            double deltaN = 0.015 * this["Wavelength, nm"] *
-                                Math.Pow(this["Sample's height, mm"], 2);
-                            double N = this["Wavelength, nm"] *
-                                Math.Pow(this["Sample's height, mm"], 3);
-                            double deltaF = (N / D) * ((Math.Abs(deltaN / N) +
-                                Math.Abs(deltaD / D)) / (1 - Math.Abs(deltaD / D)));
-                            return this["Line slope, deg"] * deltaF +
-                                this["Standard error, deg/mm"] + this["Factor"];
-                        }),
-                    Parameter.CreateFunction("Elastic term, Brewsters", 0, false, false, delegate()
-                        {
-                            return (this["Initial refractive index"] -
-                                this["Refractive index of environment"]) *
-                                this["Elastic Complianse Coefficient, Brewsters"];
-                        }),
-                    Parameter.CreateFunction("Stress-optic coefficient, Brewsters", 0, false, true, delegate()
-                        {
-                            return this["Effective piezooptical coefficient, Brewsters"] -
-                                this["Elastic term, Brewsters"];
-                        }),
-                    Parameter.CreateFunction("SOC error", 0, false, true, delegate()
-                        {
-                            return this["EPOC Error"] + 0.001 *
-                                (Math.Abs(this["Initial refractive index"]) + 
-                                Math.Abs(this["Stress-optic coefficient, Brewsters"]));
-                        }),
-                    Parameter.CreateFunction("Piezooptic coefficient, Brewsters", 0, false, true, delegate()
-                        {
-                            return -2 * this["Stress-optic coefficient, Brewsters"] /
-                                Math.Pow(this["Initial refractive index"], 3);
-                        }),
-                    Parameter.CreateFunction("POC Error", 0, false, true, delegate()
-                        {
-                            double a = Math.Abs(this["Piezooptic coefficient, Brewsters"]);
-                            double b = Math.Abs(this["SOC error"] /
-                                this["Stress-optic coefficient, Brewsters"]);
-                            double c = Math.Abs(0.003 * Math.Pow(this["Initial refractive index"], 2));
-                            return a * (b + c) / (1 - c);
-                        })
+                    Parameter.CreateFunction("Loading force, P", false, delegate()
+                    {
+                        return this["Loading mass difference, kg"] *
+                            this["Gravitational Acceleration, m/s^2"] *
+                            this["Lever Amplification (mechanical advantage)"];
+                    }),
+                    Parameter.CreateFunction("Factor", false, delegate()
+                    {
+                        return (this["Wavelength, nm"] * Math.Pow(this["Sample's height, mm"], 3)) /
+                            (12 * 180 * this["Loading force, P"] * this["Distance between loading edges, mm"]);
+                    }),
+                    Parameter.CreateFunction("Effective piezooptical coefficient, Brewsters", true, delegate()
+                    {
+                        return this["Factor"] * this["Line slope, deg"];
+                    }),
+                    Parameter.CreateFunction("EPOC Relative error", false, delegate()
+                    {
+                        double delta_h = 0.01 / this["Sample's height, mm"];
+                        double delta_a = 0.05 / this["Distance between loading edges, mm"];
+                        double delta_m = 0.001 / this["Loading mass difference, kg"];
+                        double delta_L = 0.0014;
+                        double delta_l = 0.0119;
+                        double delta_P_squared = Math.Pow(delta_m, 2) +
+                            Math.Pow(delta_L, 2) + Math.Pow(delta_l, 2);
+                        double delta_A = this["Line slope Relative error"];
+                        return Math.Sqrt(Math.Pow(3 * delta_h, 2) + delta_P_squared +
+                            Math.Pow(delta_a, 2) + Math.Pow(delta_A, 2));
+                    }),
+                    Parameter.CreateFunction("EPOC Error", true, delegate()
+                    {
+                        return this["Effective piezooptical coefficient, Brewsters"] *
+                            this["EPOC Relative error"];
+                        //double deltaP = this["Gravitational Acceleration, m/s^2"] *
+                        //    (0.001 * this["Lever Amplification (mechanical advantage)"] +
+                        //    0.01 * this["Loading mass difference, kg"]);
+                        //double deltaD = 12 * 180 * (0.01 * this["Loading force, P"] +
+                        //    deltaP * this["Distance between loading edges, mm"]);
+                        //double D = 12 * 180 * this["Loading force, P"] *
+                        //    this["Distance between loading edges, mm"];
+                        //double deltaN = 0.015 * this["Wavelength, nm"] *
+                        //    Math.Pow(this["Sample's height, mm"], 2);
+                        //double N = this["Wavelength, nm"] *
+                        //    Math.Pow(this["Sample's height, mm"], 3);
+                        //double deltaF = (N / D) * ((Math.Abs(deltaN / N) +
+                        //    Math.Abs(deltaD / D)) / (1 - Math.Abs(deltaD / D)));
+                        //return this["Line slope, deg"] * deltaF +
+                        //    this["Standard error, deg/mm"] + this["Factor"];
+                    }),
+                    Parameter.CreateFunction("Elastic term, Brewsters", false, delegate()
+                    {
+                        return (this["Initial refractive index"] -
+                            this["Refractive index of environment"]) *
+                            this["Elastic Complianse Coefficient, Brewsters"];
+                    }),
+                    Parameter.CreateFunction("Elastic term Relative error", false, delegate()
+                    {
+                        double delta_n = 0.001 / this["Initial refractive index"];
+                        double delta_S = 0.003 / this["Elastic Complianse Coefficient, Brewsters"];
+                        return Math.Sqrt(Math.Pow(delta_S, 2) + Math.Pow(delta_n, 2));
+                    }),
+                    Parameter.CreateFunction("Elastic term Error", false, delegate()
+                    {
+                        return this["Elastic term, Brewsters"] * this["Elastic term Relative error"];
+                    }),
+                    Parameter.CreateFunction("Stress-optic coefficient, Brewsters", true, delegate()
+                    {
+                        return this["Effective piezooptical coefficient, Brewsters"] -
+                            this["Elastic term, Brewsters"];
+                    }),
+                    Parameter.CreateFunction("SOC Error", true, delegate()
+                    {
+                        return Math.Sqrt(Math.Pow(this["EPOC Error"], 2) +
+                            Math.Pow(this["Elastic term Error"], 2));
+                        //return this["EPOC Error"] + 0.001 *
+                        //    (Math.Abs(this["Initial refractive index"]) + 
+                        //    Math.Abs(this["Stress-optic coefficient, Brewsters"]));
+                    }),
+                    Parameter.CreateFunction("SOC Relative error", false, delegate()
+                    {
+                        return this["SOC Error"] / this["Stress-optic coefficient, Brewsters"];
+                    }),
+                    Parameter.CreateFunction("Piezooptic coefficient, Brewsters", true, delegate()
+                    {
+                        return -2 * this["Stress-optic coefficient, Brewsters"] /
+                            Math.Pow(this["Initial refractive index"], 3);
+                    }),
+                    Parameter.CreateFunction("POC Relative error", false, delegate()
+                    {
+                        double delta_n = 0.001 / this["Initial refractive index"];
+                        return Math.Sqrt(Math.Pow(this["SOC Relative error"], 2) +
+                            Math.Pow(3 * delta_n, 2));
+                    }),
+                    Parameter.CreateFunction("POC Error", true, delegate()
+                    {
+                        return this["Piezooptic coefficient, Brewsters"] * this["POC Relative error"];
+                        //double a = Math.Abs(this["Piezooptic coefficient, Brewsters"]);
+                        //double b = Math.Abs(this["SOC error"] /
+                        //    this["Stress-optic coefficient, Brewsters"]);
+                        //double c = Math.Abs(0.003 * Math.Pow(this["Initial refractive index"], 2));
+                        //return a * (b + c) / (1 - c);
+                    })
                 };
                 Recalculate();
             }
