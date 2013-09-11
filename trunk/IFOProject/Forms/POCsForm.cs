@@ -378,10 +378,15 @@ namespace IFOProject.Forms
             }
         }
 
+        /// <summary>
+        /// POCs with parameters
+        /// </summary>
         private ParametersList Parameters { get; set; }
 
-        public POCsForm(double loadingMassDifference,
-            double lineSlope, double standardError)
+        /// <summary>
+        /// Creates form with table of POCs with parameters
+        /// </summary>
+        public POCsForm(double loadingMassDifference, double lineSlope, double standardError)
         {
             InitializeComponent();
             // try to read from package folder
@@ -409,6 +414,9 @@ namespace IFOProject.Forms
             UpdateTable();
         }
 
+        /// <summary>
+        /// Set value if possible and recalculate functions
+        /// </summary>
         private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             int row = e.RowIndex;
@@ -420,6 +428,9 @@ namespace IFOProject.Forms
             UpdateTable();
         }
 
+        /// <summary>
+        /// Refresh table values
+        /// </summary>
         private void UpdateTable()
         {
             for (int row = 0; row < dataGridView.Rows.Count; row++)
@@ -427,6 +438,9 @@ namespace IFOProject.Forms
                     Parameters[dataGridView["Key", row].Value.ToString()]);
         }
 
+        /// <summary>
+        /// Load parameters from file
+        /// </summary>
         private void buttonLoad_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -438,24 +452,34 @@ namespace IFOProject.Forms
             }
         }
 
+        /// <summary>
+        /// Save parameters to file
+        /// </summary>
         private void buttonSave_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "Parameters files (*.prm)|*.prm";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
                 Parameters.Save(dialog.FileName);
-            }
         }
 
+        /// <summary>
+        /// Export results to file
+        /// </summary>
         private void buttonExport_Click(object sender, EventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "Text files (*.txt)|*.txt";
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
                 Parameters.Export(dialog.FileName);
-            }
+        }
+
+        /// <summary>
+        /// Save parameters to params.prm for next run
+        /// </summary>
+        private void POCsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Parameters.Save("params.prm");
         }
     }
 }

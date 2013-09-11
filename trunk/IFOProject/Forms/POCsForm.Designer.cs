@@ -114,6 +114,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "POCsForm";
             this.Text = "Piezooptical coefficients";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.POCsForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
