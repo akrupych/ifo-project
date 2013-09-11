@@ -16,6 +16,11 @@ namespace IFOProject.Experimental
         public string Name { get; private set; }
 
         /// <summary>
+        /// Package directory
+        /// </summary>
+        public string DirectoryPath { get; private set; }
+
+        /// <summary>
         /// Interference patterns list
         /// </summary>
         public List<Pattern> Patterns { get; set; }
@@ -56,6 +61,7 @@ namespace IFOProject.Experimental
         /// <param name="fileName">Full path to image file</param>
         public void Add(string fileName)
         {
+            DirectoryPath = Path.GetDirectoryName(fileName);
             string[] parts = Path.GetFileName(fileName).Split(new char[1] { '_' });
             Name = parts[0];
             Patterns.Add(new Pattern(fileName));

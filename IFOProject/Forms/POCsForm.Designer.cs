@@ -34,6 +34,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.buttonLoad = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonExport = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +75,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buttonLoad,
-            this.buttonSave});
+            this.buttonSave,
+            this.buttonExport});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(434, 24);
@@ -94,6 +96,13 @@
             this.buttonSave.Size = new System.Drawing.Size(52, 20);
             this.buttonSave.Text = "Save...";
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonExport
+            // 
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(61, 20);
+            this.buttonExport.Text = "Export...";
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
             // 
             // POCsForm
             // 
@@ -121,5 +130,6 @@
         private System.Windows.Forms.ToolStripMenuItem buttonSave;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
+        private System.Windows.Forms.ToolStripMenuItem buttonExport;
     }
 }
