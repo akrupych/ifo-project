@@ -337,6 +337,44 @@ namespace IFOProject.Forms
                     string[] splitted = line.Split(new char[] { ':' });
                     FindParameter(splitted[0]).Value = double.Parse(splitted[1]);
                 }
+                Recalculate();
+            }
+
+            /// <summary>
+            /// Exports calculation results to a file
+            /// </summary>
+            /// <param name="fileName">Full file path</param>
+            public void Export(string fileName)
+            {
+                throw new NotImplementedException();
+            }
+
+            /// <summary>
+            /// Reads parameters from package directory.
+            /// Returns loaded parameters list or
+            /// null if file params.prm not found
+            /// </summary>
+            /// <param name="directoryPath">Full package directory path</param>
+            public static ParametersList FromDirectory(string directoryPath)
+            {
+                string filePath = Path.Combine(directoryPath, "params.prm");
+                if (!File.Exists(filePath)) return null;
+                ParametersList list = new ParametersList();
+                list.Load(filePath);
+                return list;
+            }
+
+            /// <summary>
+            /// Reads parameters from current directory.
+            /// Returns loaded parameters list or
+            /// null if file params.prm not found
+            /// </summary>
+            public static ParametersList FromCurrentDirectory()
+            {
+                if (!File.Exists("params.prm")) return null;
+                ParametersList list = new ParametersList();
+                list.Load("params.prm");
+                return list;
             }
         }
 
@@ -346,11 +384,17 @@ namespace IFOProject.Forms
             double lineSlope, double standardError)
         {
             InitializeComponent();
-            Parameters = new ParametersList();
+            // try to read from package folder
+            Parameters = ParametersList.FromDirectory(Program.Package.DirectoryPath);
+            // if not found, try to read from current folder
+            if (Parameters == null) Parameters = ParametersList.FromCurrentDirectory();
+            // if not found again, create default values
+            if (Parameters == null) Parameters = new ParametersList();
+            // set instant values
             Parameters.SetValueAnyway("Loading mass difference, kg", loadingMassDifference);
             Parameters.SetValueAnyway("Line slope, deg", lineSlope);
             Parameters.SetValueAnyway("Standard error, deg/mm", standardError);
-            UpdateTable();
+            // add all rows
             foreach (Parameter param in Parameters.GetCopy())
             {
                 if (param.Visible)
@@ -361,6 +405,8 @@ namespace IFOProject.Forms
                     dataGridView.Rows.Add(row);
                 }
             }
+            // refresh values
+            UpdateTable();
         }
 
         private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -399,6 +445,16 @@ namespace IFOProject.Forms
             if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Parameters.Save(dialog.FileName);
+            }
+        }
+
+        private void buttonExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Text files (*.txt)|*.txt";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Parameters.Export(dialog.FileName);
             }
         }
     }
