@@ -352,32 +352,34 @@ namespace IFOProject.Forms
                 contents.AppendLine("Determination of POCs on the Digital Interferometer " +
                     "by four-points bending method");
                 contents.AppendLine("Setup parameters:");
-                contents.AppendFormat("\tx = {0} nm - Wavelength",
+                contents.AppendFormat("\tx = {0:0.###} nm - Wavelength",
                     this["Wavelength, nm"]).AppendLine();
-                contents.AppendFormat("\ta = {0} mm - Distance between loading edges",
+                contents.AppendFormat("\ta = {0:0.###} mm - Distance between loading edges",
                     this["Distance between loading edges, mm"]).AppendLine();
-                contents.AppendFormat("\th = {0} - Lever Amplification (mechanical advantage)",
+                contents.AppendFormat("\th = {0:0.###} - Lever Amplification (mechanical advantage)",
                     this["Lever Amplification (mechanical advantage)"]).AppendLine();
-                contents.AppendFormat("\tPolarization: {0}",
+                contents.AppendFormat("\tPolarization: {0:0.###}",
                     Program.Package.Name.ToLower().StartsWith("h") ?
                     "horizontal" : "vertical").AppendLine();
-                contents.AppendFormat("Sample: crystal {0} , cut {1}", crystal, cut).AppendLine();
-                contents.AppendFormat("\tn = {0} - Initial refractive index",
+                contents.AppendFormat("Sample: crystal {0:0.###} , cut {1:0.###}", crystal, cut)
+                    .AppendLine();
+                contents.AppendFormat("\tn = {0:0.###} - Initial refractive index",
                     this["Initial refractive index"]).AppendLine();
-                contents.AppendFormat("\tS = {0} Brewsters - Elastic term",
+                contents.AppendFormat("\tS = {0:0.###} Brewsters - Elastic term",
                     this["Elastic term, Brewsters"]).AppendLine();
-                contents.AppendFormat("\th = {0} mm - Sample's height",
+                contents.AppendFormat("\th = {0:0.###} mm - Sample's height",
                     this["Sample's height, mm"]).AppendLine();
-                contents.AppendFormat("\tLoad direction: {0}", loadDirection).AppendLine();
+                contents.AppendFormat("\tLoad direction: {0:0.###}", loadDirection).AppendLine();
                 contents.AppendLine("Results:");
-                contents.AppendFormat("\tA = {0} ± {1} deg - Line slope",
+                contents.AppendFormat("\tA = {0:0.###} ± {1:0.###} deg - Line slope",
                     this["Line slope, deg"], this["Standard error, deg/mm"]).AppendLine();
-                contents.AppendFormat("\tC = {0} ± {1} Brewsters - Effective piezooptical coefficient",
+                contents.AppendFormat("\tC = {0:0.###} ± {1:0.###} Brewsters - " +
+                    "Effective piezooptical coefficient",
                     this["Effective piezooptical coefficient, Brewsters"], this["EPOC Error"])
                     .AppendLine();
-                contents.AppendFormat("\tK = {0} ± {1} Brewsters - Stress-optic coefficient",
+                contents.AppendFormat("\tK = {0:0.###} ± {1:0.###} Brewsters - Stress-optic coefficient",
                     this["Stress-optic coefficient, Brewsters"], this["SOC Error"]).AppendLine();
-                contents.AppendFormat("\tπ = {0} ± {1} Brewsters - Piezooptic coefficient",
+                contents.AppendFormat("\tπ = {0:0.###} ± {1:0.###} Brewsters - Piezooptic coefficient",
                     this["Piezooptic coefficient, Brewsters"], this["POC Error"]).AppendLine();
                 File.WriteAllText(fileName, contents.ToString());
             }
@@ -467,7 +469,7 @@ namespace IFOProject.Forms
         private void UpdateTable()
         {
             for (int row = 0; row < dataGridView.Rows.Count; row++)
-                dataGridView["Value", row].Value = string.Format("{0:F6}",
+                dataGridView["Value", row].Value = string.Format("{0:0.###}",
                     Parameters[dataGridView["Key", row].Value.ToString()]);
         }
 
