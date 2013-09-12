@@ -73,6 +73,12 @@
     <Compile Include="Forms\CalculationSetupForm.Designer.cs">
       <DependentUpon>CalculationSetupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\InfoRequestDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InfoRequestDialog.Designer.cs">
+      <DependentUpon>InfoRequestDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PackageResultsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     <Compile Include="Experimental\RowCalculations.cs" />
     <EmbeddedResource Include="Forms\CalculationSetupForm.resx">
       <DependentUpon>CalculationSetupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InfoRequestDialog.resx">
+      <DependentUpon>InfoRequestDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
