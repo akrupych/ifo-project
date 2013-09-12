@@ -441,10 +441,15 @@ namespace IFOProject.Forms
                 {
                     DataGridViewRow row = new DataGridViewRow();
                     row.CreateCells(dataGridView, param.ToArray());
-                    row.ReadOnly = !param.Editable;
+                    if (!param.Editable)
+                    {
+                        row.ReadOnly = true;
+                        row.DefaultCellStyle.BackColor = Color.LightGray;
+                    }
                     dataGridView.Rows.Add(row);
                 }
             }
+            dataGridView.Columns[0].DefaultCellStyle.BackColor = Color.LightGray;
             // refresh values
             UpdateTable();
         }
