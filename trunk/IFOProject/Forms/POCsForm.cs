@@ -129,6 +129,7 @@ namespace IFOProject.Forms
                     Parameter.CreateInstantConstant("Loading mass difference, kg", 0, false),
                     Parameter.CreateInstantConstant("Line slope, deg", 0, true),
                     Parameter.CreateInstantConstant("Standard error, deg/mm", 0, true),
+                    Parameter.CreateVisibleVariable("Vertical resolution, px/mm", 0),
                     Parameter.CreateFunction("Line slope Relative error", false, delegate()
                     {
                         return this["Standard error, deg/mm"] / this["Line slope, deg"];
@@ -358,6 +359,9 @@ namespace IFOProject.Forms
                     this["Distance between loading edges, mm"]).AppendLine();
                 contents.AppendFormat("\tk = {0:0.###} - Lever Amplification (mechanical advantage)",
                     this["Lever Amplification (mechanical advantage)"]).AppendLine();
+                //
+                contents.AppendFormat("\tvr = {0:0.###} px/mm - Vertical resolution",
+                    this["Vertical resolution, px/mm"]).AppendLine();
                 contents.AppendFormat("\tPolarization: {0:0.###}",
                     Program.Package.Name.ToLower().StartsWith("h") ?
                     "horizontal" : "vertical").AppendLine();
@@ -423,7 +427,8 @@ namespace IFOProject.Forms
         /// <summary>
         /// Creates form with table of POCs with parameters
         /// </summary>
-        public POCsForm(double loadingMassDifference, double lineSlope, double standardError)
+        public POCsForm(double loadingMassDifference, double lineSlope,
+            double standardError, double verticalResolution)
         {
             InitializeComponent();
             // try to read from package folder
@@ -436,6 +441,7 @@ namespace IFOProject.Forms
             Parameters.SetValueAnyway("Loading mass difference, kg", loadingMassDifference);
             Parameters.SetValueAnyway("Line slope, deg", lineSlope);
             Parameters.SetValueAnyway("Standard error, deg/mm", standardError);
+            Parameters.SetValueAnyway("Vertical resolution, px/mm", verticalResolution);
             // add all rows
             foreach (Parameter param in Parameters.GetCopy())
             {
