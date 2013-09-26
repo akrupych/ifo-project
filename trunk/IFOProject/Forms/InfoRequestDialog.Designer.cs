@@ -61,14 +61,14 @@
             // 
             this.textBoxCrystalMaterial.Location = new System.Drawing.Point(99, 34);
             this.textBoxCrystalMaterial.Name = "textBoxCrystalMaterial";
-            this.textBoxCrystalMaterial.Size = new System.Drawing.Size(121, 20);
+            this.textBoxCrystalMaterial.Size = new System.Drawing.Size(249, 20);
             this.textBoxCrystalMaterial.TabIndex = 2;
             // 
             // textBoxCut
             // 
             this.textBoxCut.Location = new System.Drawing.Point(99, 60);
             this.textBoxCut.Name = "textBoxCut";
-            this.textBoxCut.Size = new System.Drawing.Size(121, 20);
+            this.textBoxCut.Size = new System.Drawing.Size(249, 20);
             this.textBoxCut.TabIndex = 4;
             // 
             // label3
@@ -84,7 +84,7 @@
             // 
             this.textBoxLoadDirection.Location = new System.Drawing.Point(99, 86);
             this.textBoxLoadDirection.Name = "textBoxLoadDirection";
-            this.textBoxLoadDirection.Size = new System.Drawing.Size(121, 20);
+            this.textBoxLoadDirection.Size = new System.Drawing.Size(249, 20);
             this.textBoxLoadDirection.TabIndex = 6;
             // 
             // label4
@@ -98,9 +98,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(120, 112);
+            this.buttonCancel.Location = new System.Drawing.Point(226, 115);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(100, 23);
+            this.buttonCancel.Size = new System.Drawing.Size(122, 23);
             this.buttonCancel.TabIndex = 8;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -108,9 +108,9 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Location = new System.Drawing.Point(12, 112);
+            this.buttonOK.Location = new System.Drawing.Point(99, 115);
             this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(100, 23);
+            this.buttonOK.Size = new System.Drawing.Size(121, 23);
             this.buttonOK.TabIndex = 7;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
@@ -120,7 +120,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(238, 150);
+            this.ClientSize = new System.Drawing.Size(360, 150);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.textBoxLoadDirection);
