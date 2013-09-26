@@ -79,6 +79,11 @@ namespace IFOProject.Forms
                 PhaseDifference[i] = second[i] - first[i];
         }
 
+        private double VerticalResolution
+        {
+            get { return double.Parse(textBoxVerticalResolution.Text); }
+        }
+
         /// <summary>
         /// Creates array of absolute Y-coordinates for selected rows
         /// </summary>
@@ -87,9 +92,8 @@ namespace IFOProject.Forms
             RowCalculations[] rows = Program.Package.CurrentPattern.Calculations;
             int middle = (rows.First().Index + rows.Last().Index) / 2;
             Y = new double[PhaseDifference.Length];
-            double verticalResolution = double.Parse(textBoxVerticalResolution.Text);
             for (int i = 0; i < Y.Length; i++)
-                Y[i] = (rows[i].Index - middle) / verticalResolution;
+                Y[i] = (rows[i].Index - middle) / VerticalResolution;
         }
 
         /// <summary>
@@ -180,7 +184,7 @@ namespace IFOProject.Forms
         private void buttonCalculatePOCsClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             new POCsForm(CalculateLoadingMassDifference(), A,
-                CalculateStandardError()).Show();
+                CalculateStandardError(), VerticalResolution).Show();
         }
 
         private double CalculateStandardError()
