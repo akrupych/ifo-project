@@ -40,6 +40,8 @@
             this.textBoxSlope = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.textBoxStandardError = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripLabel5 = new System.Windows.Forms.ToolStripLabel();
+            this.textBoxVerticalResolution = new System.Windows.Forms.ToolStripTextBox();
             this.resultsPlot = new IFOProject.CustomControls.Plot();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -48,6 +50,8 @@
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel5,
+            this.textBoxVerticalResolution,
             this.toolStripLabel1,
             this.textBoxRSS,
             this.toolStripLabel2,
@@ -59,7 +63,7 @@
             this.textBoxStandardError});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(918, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(864, 25);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.buttonCalculatePOCsClicked);
@@ -74,7 +78,7 @@
             // 
             this.textBoxRSS.Name = "textBoxRSS";
             this.textBoxRSS.ReadOnly = true;
-            this.textBoxRSS.Size = new System.Drawing.Size(100, 25);
+            this.textBoxRSS.Size = new System.Drawing.Size(80, 25);
             // 
             // toolStripLabel2
             // 
@@ -86,7 +90,7 @@
             // 
             this.textBoxCoD.Name = "textBoxCoD";
             this.textBoxCoD.ReadOnly = true;
-            this.textBoxCoD.Size = new System.Drawing.Size(100, 25);
+            this.textBoxCoD.Size = new System.Drawing.Size(36, 25);
             // 
             // buttonCalculatePOCs
             // 
@@ -110,7 +114,7 @@
             // 
             this.textBoxSlope.Name = "textBoxSlope";
             this.textBoxSlope.ReadOnly = true;
-            this.textBoxSlope.Size = new System.Drawing.Size(100, 25);
+            this.textBoxSlope.Size = new System.Drawing.Size(49, 25);
             // 
             // toolStripLabel4
             // 
@@ -122,7 +126,20 @@
             // 
             this.textBoxStandardError.Name = "textBoxStandardError";
             this.textBoxStandardError.ReadOnly = true;
-            this.textBoxStandardError.Size = new System.Drawing.Size(100, 23);
+            this.textBoxStandardError.Size = new System.Drawing.Size(36, 25);
+            // 
+            // toolStripLabel5
+            // 
+            this.toolStripLabel5.Name = "toolStripLabel5";
+            this.toolStripLabel5.Size = new System.Drawing.Size(108, 22);
+            this.toolStripLabel5.Text = "Vertical Resolution:";
+            // 
+            // textBoxVerticalResolution
+            // 
+            this.textBoxVerticalResolution.Name = "textBoxVerticalResolution";
+            this.textBoxVerticalResolution.Size = new System.Drawing.Size(36, 25);
+            this.textBoxVerticalResolution.Text = "89";
+            this.textBoxVerticalResolution.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxVerticalResolution_KeyDown);
             // 
             // resultsPlot
             // 
@@ -137,14 +154,14 @@
             this.resultsPlot.ScrollMinX = 0D;
             this.resultsPlot.ScrollMinY = 0D;
             this.resultsPlot.ScrollMinY2 = 0D;
-            this.resultsPlot.Size = new System.Drawing.Size(918, 521);
+            this.resultsPlot.Size = new System.Drawing.Size(864, 521);
             this.resultsPlot.TabIndex = 1;
             // 
             // PhaseDifferenceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(918, 546);
+            this.ClientSize = new System.Drawing.Size(864, 546);
             this.Controls.Add(this.resultsPlot);
             this.Controls.Add(this.toolStrip1);
             this.Name = "PhaseDifferenceForm";
@@ -169,5 +186,7 @@
         private System.Windows.Forms.ToolStripTextBox textBoxSlope;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.ToolStripTextBox textBoxStandardError;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel5;
+        private System.Windows.Forms.ToolStripTextBox textBoxVerticalResolution;
     }
 }

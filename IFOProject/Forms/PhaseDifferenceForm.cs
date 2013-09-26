@@ -56,6 +56,11 @@ namespace IFOProject.Forms
             PackageName1 = Path.GetFileNameWithoutExtension(fileName);
             PackageName2 = Program.Package.Name;
             CalculatePhaseDifference(fileName);
+            DoMagic();
+        }
+
+        private void DoMagic()
+        {
             CalculateY();
             CalculateLinearRegression();
             SetupTopBar();
@@ -82,8 +87,9 @@ namespace IFOProject.Forms
             RowCalculations[] rows = Program.Package.CurrentPattern.Calculations;
             int middle = (rows.First().Index + rows.Last().Index) / 2;
             Y = new double[PhaseDifference.Length];
+            double verticalResolution = double.Parse(textBoxVerticalResolution.Text);
             for (int i = 0; i < Y.Length; i++)
-                Y[i] = (rows[i].Index - middle) / 89.0;
+                Y[i] = (rows[i].Index - middle) / verticalResolution;
         }
 
         /// <summary>
@@ -144,6 +150,7 @@ namespace IFOProject.Forms
         {
             // initial setup
             GraphPane graph = resultsPlot.GraphPane;
+            graph.CurveList.Clear();
             graph.Title.Text = string.Format("Phase difference ({0} - {1})",
                 PackageName2, PackageName1);
             graph.YAxis.Title.Text = "Phase difference increment, deg";
@@ -164,6 +171,7 @@ namespace IFOProject.Forms
             line.Line.IsAntiAlias = true;
             // update
             resultsPlot.AxisChange();
+            resultsPlot.Refresh();
         }
 
         /// <summary>
@@ -195,6 +203,11 @@ namespace IFOProject.Forms
             double load1 = double.Parse(PackageName1.Substring(1, 2)) / 10.0;
             double load2 = double.Parse(PackageName2.Substring(1, 2)) / 10.0;
             return load2 - load1;
+        }
+
+        private void textBoxVerticalResolution_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Return) DoMagic();
         }
     }
 }
